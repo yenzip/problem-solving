@@ -4,15 +4,13 @@
 using namespace std;
 
 int solution(vector<int> common) {
-	int answer = 0;
-	int a = common[1] - common[0];
-	int b = common[2] - common[1];
-	if (a == b) {	// 등차수열
-		answer = common.back() + a;
+	int n = common.size();
+	if ((common[1] - common[0]) == (common[2] - common[1])) {
+		int d = common[1] - common[0];
+		return common.back() + d;
 	}
-	else {	// 등비수열
-		a = common[1] / common[0];
-		answer = common.back() * a;
+	else {
+		int r = common[1] / common[0];
+		return common.back() * r;
 	}
-	return answer;
 }
