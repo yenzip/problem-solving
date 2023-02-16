@@ -5,17 +5,14 @@ using namespace std;
 
 vector<int> solution(vector<int> numbers, string direction) {
 	vector<int> answer;
-	answer.resize(numbers.size());
 
 	if (direction == "right") {
-		for (int i = 0; i < numbers.size(); i++) {
-			answer[(i + 1) % numbers.size()] = numbers[i];
-		}
+		answer.push_back(numbers.back());
+		answer.insert(answer.end(), numbers.begin(), numbers.end() - 1);
 	}
 	else {
-		for (int i = 0; i < numbers.size(); i++) {
-			answer[i] = numbers[(i + 1) % numbers.size()];
-		}
+		answer.insert(answer.begin(), numbers.begin() + 1, numbers.end());
+		answer.push_back(numbers.front());
 	}
 	return answer;
 }
