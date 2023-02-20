@@ -7,9 +7,9 @@ using namespace std;
 vector<int> solution(string my_string) {
 	vector<int> answer;
 
-	for (const auto &v : my_string) {
-		if (v >= '0' && v <= '9') {
-			answer.push_back(v - '0');
+	for (auto i : my_string) {
+		if (isdigit(i)) {
+			answer.push_back(i - '0');
 		}
 	}
 
