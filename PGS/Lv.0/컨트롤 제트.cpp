@@ -1,29 +1,27 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include <stack>
+#include <numeric>
 
 using namespace std;
 
 int solution(string s) {
 	int answer = 0;
-	istringstream ss(s);
-	stack<string> st;
-	string tmp;
 
-	while (getline(ss, tmp, ' ')) {
+	stringstream ss(s);
+	vector<int> v;
+
+	string tmp;
+	while (ss >> tmp) {
 		if (tmp == "Z") {
-			st.pop();
+			v.pop_back();
 		}
 		else {
-			st.push(tmp);
+			v.push_back(stoi(tmp));
 		}
 	}
 
-	while (!st.empty()) {
-		answer += stoi(st.top());
-		st.pop();
-	}
+	answer = accumulate(v.begin(), v.end(), 0);
 
 	return answer;
 }

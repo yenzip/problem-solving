@@ -1,23 +1,22 @@
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <cmath>
 
 using namespace std;
 
 int solution(vector<int> array, int n) {
-	int answer = 0;
-	int closet = 100, pos;
 
-	for (int i = 0; i < array.size(); i++) {
-		int num = abs(array[i] - n);
-		if (closet > num) {
-			closet = num;
-			pos = i;
-		}
-		else if (closet == num && array[pos] > array[i]) {
-			pos = i;
+	sort(array.begin(), array.end());
+
+	int idx = 0;
+	int closet = abs(array[0] - n);
+	for (int i = 1; i < array.size(); i++) {
+		if (closet > abs(array[i] - n)) {
+			idx = i;
+			closet = abs(array[i] - n);
 		}
 	}
 
-	answer = array[pos];
-	return answer;
+	return array[idx];
 }
