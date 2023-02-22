@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int N, M;
+vector<vector<int>> adj;
+bool visited[1000 + 1];
+
+void dfs(int cur) {
+	visited[cur] = true;
+
+	for (int next : adj[cur]) {
+		if (!visited[next]) {
+			dfs(next);
+		}
+	}
+}
+
+int main() {
+	cin >> N >> M;
+
+	adj.resize(N + 1);
+	memset(visited, false, sizeof(visited));
+
+	for (int i = 0; i < M; i++) {
+		int u, v;
+		cin >> u >> v;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+
+	int cnt = 0;
+	for (int i = 1; i <= N; i++) {
+		if (!visited[i]) {
+			dfs(i);
+			cnt++;
+		}
+	}
+
+	cout << cnt;
+
+	return 0;
+}
