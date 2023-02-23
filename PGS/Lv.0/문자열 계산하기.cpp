@@ -6,21 +6,20 @@ using namespace std;
 
 int solution(string my_string) {
 	int answer = 0;
-	istringstream ss(my_string);
-	vector<string> v;
-	string tmp = "";
+	
+	// 1. 처음 정수 저장
+	stringstream ss(my_string);
+	ss >> answer;
 
-	while (getline(ss, tmp, ' ')) {
-		v.push_back(tmp);
-	}
-
-	answer = stoi(v[0]);
-	for (int i = 1; i < v.size(); i += 2) {
-		if (v[i] == "+") {
-			answer = answer + stoi(v[i + 1]);
+	// 2.
+	int n;
+	char op;
+	while (ss >> op >> n) {
+		if (op == '+') {
+			answer += n;
 		}
 		else {
-			answer = answer - stoi(v[i + 1]);
+			answer -= n;
 		}
 	}
 
