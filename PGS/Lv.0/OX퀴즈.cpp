@@ -7,30 +7,17 @@ using namespace std;
 vector<string> solution(vector<string> quiz) {
 	vector<string> answer;
 
-	for (auto q : quiz) {
-		stringstream ss;
-		ss.str(q);
-		int num = 0;
-		ss >> num;
+	for (auto s : quiz) {
+		stringstream ss(s);
+		int a, b, res;
+		char op, eq;
+		ss >> a >> op >> b >> eq >> res;
 
-		char c = ' ';
-		int tmp = 0;
-		while (ss) {
-			if (c == '+') {
-				num += tmp;
-			}
-			else if (c == '-') {
-				num -= tmp;
-			}
-			else if (c == '=') {
-				if (num == tmp) {
-					answer.push_back("O");
-				}
-				else {
-					answer.push_back("X");
-				}
-			}
-			ss >> c >> tmp;
+		if (op == '+') {
+			a + b == res ? answer.push_back("O") : answer.push_back("X");
+		}
+		else {
+			a - b == res ? answer.push_back("O") : answer.push_back("X");
 		}
 	}
 
