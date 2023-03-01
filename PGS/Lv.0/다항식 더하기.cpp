@@ -6,47 +6,37 @@ using namespace std;
 
 string solution(string polynomial) {
 	string answer = "";
-	istringstream ss(polynomial);
-	string tmp = "";
-	int coef = 0;
-	int cons = 0;
 
-	while (getline(ss, tmp, ' ')) {
-		int index = tmp.find('x');
+	stringstream ss(polynomial);
+	string tmp;
+	int coef = 0, cons = 0;
+	while (ss >> tmp) {
+		if (tmp == "+") {
+			continue;
+		}
 
-		if (index != string::npos) {
-			if (index == 0) {
+		if (tmp.back() == 'x') {
+			if (tmp.front() == 'x') {
 				coef += 1;
 			}
 			else {
-				tmp = tmp.substr(0, index);
-				coef += stoi(tmp);
+				coef += stoi(tmp.substr(0, tmp.size() - 1));
 			}
 		}
-		else if (isdigit(tmp[0])) {
+		else {
 			cons += stoi(tmp);
 		}
 	}
 
 	if (coef == 0 && cons == 0) {
-		answer += "0";
+		answer = "0";
+	}
+	else if (coef == 0) {
+		answer += to_string(cons);
 	}
 	else {
-		if (coef != 0) {
-			if (coef == 1) {
-				answer += "x";
-			}
-			else {
-				answer += to_string(coef) + "x";
-			}
-		}
-
-		if (cons != 0) {
-			if (coef != 0) {
-				answer += " + ";
-			}
-			answer += to_string(cons);
-		}
+		coef == 1 ? answer += 'x' : answer += to_string(coef) + "x";
+		cons == 0 ? answer : answer += " + " + to_string(cons);
 	}
 
 	return answer;
