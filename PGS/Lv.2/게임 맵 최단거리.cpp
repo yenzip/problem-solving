@@ -1,45 +1,52 @@
-#include <bits/stdc++.h>
+#include<vector>
+#include <queue>
+#include <string.h>
 using namespace std;
 
-int n, m;	// 세로(행), 가로(열)
-int level[100][100];	// visited
-int dRow[4] = { 0, 0, -1, 1 };	// 상하좌우
-int dCol[4] = { 1, -1, 0, 0 };
+int N, M;
+int level[100][100];
+int dx[4] = { -1, 1, 0, 0 };
+int dy[4] = { 0, 0, -1, 1 };
 
-int isOut(int row, int col) {
-	return (row < 0 || row >= n || col < 0 || col >= m);
+int isOut(int x, int y) {
+	return (x < 0 || x >= N || y < 0 || y >= M);
 }
 
-int solution(vector<vector<int> > maps) {
-	int answer;
-
-	n = maps.size();
-	m = maps[0].size();	
-
-	memset(level, -1, sizeof(level));
-
-	queue<pair<int, int>> q;	// { row, col }
+void bfs(vector<vector<int>> &maps) {
+	queue<pair<int, int>> q;
 
 	level[0][0] = 1;
 	q.push({ 0, 0 });
 
 	while (!q.empty()) {
-		int row = q.front().first;
-		int col = q.front().second;
+		int x = q.front().first;
+		int y = q.front().second;
 		q.pop();
 
 		for (int i = 0; i < 4; i++) {
-			int nextRow = row + dRow[i];
-			int nextCol = col + dCol[i];
+			int nx = x + dx[i];
+			int ny = y + dy[i];
 
-			if (!isOut(nextRow, nextCol) && maps[nextRow][nextCol] == 1 && level[nextRow][nextCol] == -1) {
-				level[nextRow][nextCol] = level[row][col] + 1;
-				q.push({ nextRow, nextCol });
+			if (isOut(nx, ny) || maps[nx][ny] == 0) {
+				continue;
+			}
+			else if (level[nx][ny] == -1) {
+				level[nx][ny] = level[x][y] + 1;
+				q.push({ nx, ny });
 			}
 		}
 	}
+}
 
-	answer = level[n - 1][m - 1];
+int solution(vector<vector<int> > maps)
+{
 
-	return answer;
+	N = maps.size();
+	M = maps[0].size();
+
+	memset(level, -1, sizeof(level));
+
+	bfs(maps);
+
+	return level[N - 1][M - 1];
 }
