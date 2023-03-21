@@ -1,24 +1,22 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <map>
 
 using namespace std;
 
+int N;
+
+bool comp(string a, string b) {
+	if (a[N] == b[N]) {
+		return a < b;
+	}
+	return a[N] < b[N];
+}
+
 vector<string> solution(vector<string> strings, int n) {
-	vector<string> answer;
 
-	sort(strings.begin(), strings.end());
+	N = n;
+	sort(strings.begin(), strings.end(), comp);	
 
-	multimap<char, string> mm;
-
-	for (auto s : strings) {
-		mm.insert(make_pair(s[n], s));
-	}
-
-	for (auto i : mm) {
-		answer.push_back(i.second);
-	}
-
-	return answer;
+	return strings;
 }
