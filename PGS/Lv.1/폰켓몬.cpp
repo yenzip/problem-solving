@@ -1,14 +1,14 @@
 #include <vector>
-#include <set>
-#include <algorithm>
+#include <map>
 using namespace std;
 
 int solution(vector<int> nums)
 {
-	set<int> s;
-	for (auto i : nums) {
-		s.insert(i);
+
+	map<int, int> m;
+	for (auto num : nums) {
+		m[num]++;
 	}
 
-	return min(nums.size() / 2, s.size());
+	return nums.size() / 2 <= m.size() ? nums.size() / 2 : m.size();
 }

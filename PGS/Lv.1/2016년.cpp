@@ -1,19 +1,16 @@
 #include <string>
 #include <vector>
+#include <numeric>
 
 using namespace std;
 
-vector<int> v = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-vector<string> week = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
-
+vector<int> day = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+string week[7] = { "FRI", "SAT", "SUN", "MON", "TUE", "WED", "THU" };
 
 string solution(int a, int b) {
-	int day = 0;
-	for (int i = 0; i < a; i++) {
-		day += v[i];
-	}
 
-	day += b;
+	int total = accumulate(day.begin(), day.begin() + a - 1, 0);
+	total += b;
 
-	return week[(day % 7 + 4) % 7];
+	return total % 7 == 0 ? week[6] : week[total % 7];
 }
