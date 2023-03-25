@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define INF 100001
+#define INF 1e9
 int n, m;
 vector<vector<int>> d;
 
