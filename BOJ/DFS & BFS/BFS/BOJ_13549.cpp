@@ -1,14 +1,12 @@
 #include <bits/stdc++.h>
-#define MAX 100001
+#define MAX 100000
 using namespace std;
 
 int N, K;
-bool visited[MAX];
-int add[2] = { -1, 1 };
+bool visited[MAX + 1];
 
-struct info {
-	int x;
-	int time;
+struct Info {
+	int x, time;
 };
 
 bool isOut(int x) {
@@ -16,32 +14,33 @@ bool isOut(int x) {
 }
 
 void bfs(int start) {
-	queue<info> q;
+	deque<Info> dq;
 	visited[start] = true;
-	q.push({ start, 0 });
+	dq.push_back({ start, 0 });
 
-	while (!q.empty()) {
-		int now = q.front().x;
-		int time = q.front().time;
-		q.pop();
-		
+	while (!dq.empty()) {
+		int now = dq.front().x;
+		int time = dq.front().time;
+		dq.pop_front();
+
 		if (now == K) {
 			cout << time << '\n';
 			return;
 		}
 
-		int next = now * 2;
-		if (!isOut(next) && !visited[next]) {
-			visited[next] = true;
-			q.push({ next, time });
+		if (!isOut(now * 2) && !visited[now * 2]) {
+			visited[now * 2] = true;
+			dq.push_front({ now * 2, time });	// 0ÃÊ
 		}
 
-		for (int i = 0; i < 2; i++) {
-			next = now + add[i];
-			if (!isOut(next) && !visited[next]) {
-				visited[next] = true;
-				q.push({ next, time + 1 });
-			}
+		if (!isOut(now - 1) && !visited[now - 1]) {
+			visited[now - 1] = true;
+			dq.push_back({ now - 1, time + 1 });	// 1ÃÊ
+		}
+
+		if (!isOut(now + 1) && !visited[now + 1]) {
+			visited[now + 1] = true;
+			dq.push_back({ now + 1, time + 1 });	// 1ÃÊ
 		}
 	}
 }
@@ -52,7 +51,7 @@ int main() {
 
 	cin >> N >> K;
 
-	bfs(N);
+	bfs(N);	// 0-1 BFS
 
 	return 0;
 }
