@@ -1,23 +1,27 @@
 #include <string>
 #include <vector>
-#include <bitset>
-#include <algorithm>
 
 using namespace std;
-
-bitset<16> b;
 
 vector<string> solution(int n, vector<int> arr1, vector<int> arr2) {
 	vector<string> answer;
 
-	for (int i = 0; i < arr1.size(); i++) {
-		b = (arr1[i] | arr2[i]);
-		string tmp = "";
-		for (int i = 0; i < n; i++) {
-			tmp += b[i] == 1 ? '#' : ' ';
+	for (int i = 0; i < n; i++) {
+		string result;
+		for (int j = n - 1; j >= 0; j--) {
+			int a = arr1[i] / (1 << j);
+			if (a == 1) {
+				arr1[i] -= (1 << j);
+			}
+
+			int b = arr2[i] / (1 << j);
+			if (b == 1) {
+				arr2[i] -= (1 << j);
+			}
+
+			a == 1 || b == 1 ? result += '#' : result += ' ';
 		}
-		reverse(tmp.begin(), tmp.end());
-		answer.push_back(tmp);
+		answer.push_back(result);
 	}
 
 	return answer;
