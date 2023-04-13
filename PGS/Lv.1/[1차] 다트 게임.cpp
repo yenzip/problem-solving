@@ -1,49 +1,53 @@
 #include <string>
-#include <vector>
-#include <algorithm>
-#include <numeric>
+#include <sstream>
 #include <cmath>
-
+#include <numeric>
 using namespace std;
 
 int solution(string dartResult) {
 	int answer = 0;
 
-	vector<int> result;
-	string tmp = "";
-	int num;
-	for (auto i : dartResult) {
-		if (isdigit(i)) {
-			tmp += i;
-		}
-		else if (isalpha(i)) {
-			if (i == 'S') {
-				num = stoi(tmp);
-			}
-			else if (i == 'D') {
-				num = pow(stoi(tmp), 2);
-			}
-			else if (i == 'T') {
-				num = pow(stoi(tmp), 3);
-			}
-			result.push_back(num);
-			tmp = "";
-		}
-		else {
-			if (i == '*') {
-				result.back() *= 2;
-				if (result.size() > 1) {
-					result[result.size() - 2] *= 2;
-				}
+	stringstream ss(dartResult);
+	int result[3];
+	int idx = 0;
+	for (int i = 0; i < 3; i++) {
+		int score;
+		char bonus;
+		char option;
 
-			}
-			else if (i == '#') {
-				result.back() *= -1;
+		ss >> score;
+
+		bonus = ss.get();
+		option = ss.get();
+
+		if (option != '*' && option != '#') {
+			ss.unget();
+		}
+
+		if (bonus == 'S') {
+			result[idx] = score;
+		}
+		else if (bonus == 'D') {
+			result[idx] = pow(score, 2);
+		}
+		else if (bonus == 'T') {
+			result[idx] = pow(score, 3);
+		}
+
+		if (option == '*') {
+			result[idx] *= 2;
+			if (idx - 1 >= 0) {
+				result[idx - 1] *= 2;
 			}
 		}
+		else if (option == '#') {
+			result[idx] *= (-1);
+		}
+
+		idx++;
 	}
 
-	answer = accumulate(result.begin(), result.end(), 0);
+	answer = accumulate(result, result + 3, 0);
 
 	return answer;
 }
