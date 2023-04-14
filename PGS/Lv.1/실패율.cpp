@@ -1,30 +1,51 @@
 #include <string>
 #include <vector>
-#include <map>
 #include <algorithm>
 
 using namespace std;
 
-bool cmp(const pair<int, double> &a, const pair<int, double> &b) {
-	return a.second > b.second;
+int notClear(vector<int> &stages, int s) {
+	int player = 0;
+	for (int i = 0; i < stages.size(); i++) {
+		if (s == stages[i]) {
+			player++;
+		}
+	}
+	return player;
+}
+
+int reach(vector<int> &stages, int s) {
+	int player = 0;
+	for (int i = 0; i < stages.size(); i++) {
+		if (s <= stages[i]) {
+			player++;
+		}
+	}
+	return player;
+}
+
+bool comp(pair<double, int> &a, pair<double, int> &b) {
+	if (a.first == b.first) {
+		return a.second < b.second;
+	}
+	return a.first > b.first;
 }
 
 vector<int> solution(int N, vector<int> stages) {
 	vector<int> answer;
 
-	map<int, double> m;
-
-	for (int i = 1; i <= N; i++) {
-		double notClear = count(stages.begin(), stages.end(), i);
-		int challenge = count_if(stages.begin(), stages.end(), [i](int elem) { return elem >= i; });
-		m[i] = notClear / challenge;
+	vector<pair<double, int>> fail;    // {실패율, 스테이지}
+	for (int stage = 1; stage <= N; stage++) {
+		int nc = notClear(stages, stage);
+		int r = reach(stages, stage);
+		double rate;
+		r == 0 ? rate = 0 : rate = nc * 1.0 / r;
+		fail.push_back({ rate, stage });
 	}
+	sort(fail.begin(), fail.end(), comp);
 
-	vector<pair<int, double>> v(m.begin(), m.end());	// map - value로 정렬
-	stable_sort(v.begin(), v.end(), cmp);
-
-	for (auto i : v) {
-		answer.push_back(i.first);
+	for (auto s : fail) {
+		answer.push_back(s.second);
 	}
 
 	return answer;
