@@ -1,31 +1,25 @@
-#include <string>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-int N;
+int answer = 0;
 bool visited[8];
-int total = 0;
 
-void dfs(vector<vector<int>> &dungeons, int k, int depth) {
-	for (int i = 0; i < N; i++) {
+void go(vector<vector<int>> &dungeons, int k, int depth) {
+	if (depth <= dungeons.size()) {
+		answer = max(answer, depth);
+	}
+
+	for (int i = 0; i < dungeons.size(); i++) {
 		if (!visited[i] && k >= dungeons[i][0]) {
 			visited[i] = true;
-			dfs(dungeons, k - dungeons[i][1], depth + 1);
+			go(dungeons, k - dungeons[i][1], depth + 1);
 			visited[i] = false;
 		}
 	}
-
-	total = max(total, depth);
-	return;
 }
 
 int solution(int k, vector<vector<int>> dungeons) {
-	
-	N = dungeons.size();
-
-	dfs(dungeons, k, 0);
-
-	return total;
+	go(dungeons, k, 0);
+	return answer;
 }

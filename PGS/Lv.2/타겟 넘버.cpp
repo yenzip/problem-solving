@@ -1,28 +1,21 @@
-#include <string>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
+int answer = 0;
 
-int solution(vector<int> numbers, int target) {
-	int answer = 0;
-
-	vector<vector<int>> v;
-	v[0].push_back(numbers[0]);
-	v[0].push_back(-numbers[0]);
-
-	for (int i = 1; i < numbers.size(); i++) {
-		for (int next : v[i - 1]) {
-			v[i].push_back(next + numbers[i]);
-			v[i].push_back(next - numbers[i]);
-		}
-	}
-
-	for (auto i : v[numbers.size() - 1]) {
-		if (i == target) {
+void dfs(vector<int> &numbers, int target, int start, int num, int depth) {
+	if (depth == numbers.size()) {
+		if (num == target) {
 			answer++;
 		}
+		return;
 	}
+	dfs(numbers, target, start + 1, num + numbers[start], depth + 1);
+	dfs(numbers, target, start + 1, num - numbers[start], depth + 1);
+}
 
+int solution(vector<int> numbers, int target) {
+
+	dfs(numbers, target, 0, 0, 0);
 	return answer;
 }
