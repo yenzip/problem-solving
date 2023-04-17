@@ -1,38 +1,25 @@
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <stack>
-
+#include <bits/stdc++.h>
 using namespace std;
+
+stack<int> s;
 
 int solution(vector<vector<int>> board, vector<int> moves) {
 	int answer = 0;
 
-	vector<vector<int>> v(board.size());
-	for (int j = 0; j < board.size(); j++) {
+	for (auto m : moves) {
 		for (int i = 0; i < board.size(); i++) {
-			if (board[i][j]) {
-				v[j].push_back(board[i][j]);
+			if (board[i][m - 1] != 0) {
+				if (!s.empty() && s.top() == board[i][m - 1]) {
+					answer += 2;
+					s.pop();
+				}
+				else {
+					s.push(board[i][m - 1]);
+				}
+				board[i][m - 1] = 0;
+				break;
 			}
 		}
-		reverse(v[j].begin(), v[j].end());
-	}
-
-	stack<int> s;
-	for (auto i : moves) {
-		if (v[i - 1].empty()) {
-			continue;
-		}
-
-		if (!s.empty() && s.top() == v[i - 1].back()) {
-			s.pop();
-			answer += 2;
-		}
-		else {
-			s.push(v[i - 1].back());
-		}
-
-		v[i - 1].pop_back();
 	}
 
 	return answer;
