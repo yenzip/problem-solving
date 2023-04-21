@@ -1,30 +1,21 @@
-#include <string>
-#include <vector>
-#include <unordered_map>
-
+#include <bits/stdc++.h>
 using namespace std;
-
-unordered_map<string, char> m = { {"zero", '0'}, {"one", '1'}, {"two", '2'}, {"three", '3'}, {"four", '4'}, {"five",'5'}, {"six", '6'}, {"seven", '7'}, {"eight", '8'}, {"nine", '9'} }; 
 
 int solution(string s) {
 	int answer = 0;
 
-	string num = "";
-	string tmp = "";
-	for (int i = 0; i < s.size(); i++) {
-		if (isdigit(s[i])) {
-			num += s[i];
-		}
-		else {
-			tmp += s[i];
-			if (m.find(tmp) != m.end()) {
-				num += m[tmp];
-				tmp = "";
-			}
-		}
-	}
+	s = regex_replace(s, regex("zero"), "0");
+	s = regex_replace(s, regex("one"), "1");
+	s = regex_replace(s, regex("two"), "2");
+	s = regex_replace(s, regex("three"), "3");
+	s = regex_replace(s, regex("four"), "4");
+	s = regex_replace(s, regex("five"), "5");
+	s = regex_replace(s, regex("six"), "6");
+	s = regex_replace(s, regex("seven"), "7");
+	s = regex_replace(s, regex("eight"), "8");
+	s = regex_replace(s, regex("nine"), "9");
 
-	answer = stoi(num);
+	answer = stoi(s);
 
 	return answer;
 }
