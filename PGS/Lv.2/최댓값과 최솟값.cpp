@@ -1,24 +1,16 @@
-#include <string>
-#include <vector>
-#include <sstream>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 string solution(string s) {
-	string answer = "";
-
-	vector<int> v;
-
 	stringstream ss(s);
-	int tmp;
-	while (ss >> tmp) {
-		v.push_back(tmp);
+	int x, minVal = INT_MAX, maxVal = INT_MIN;
+
+	while (ss >> x) {
+		minVal = min(minVal, x);
+		maxVal = max(maxVal, x);
 	}
 
-	sort(v.begin(), v.end());
-
-	answer += to_string(v.front()) + " " + to_string(v.back());
+	string answer = to_string(minVal) + " " + to_string(maxVal);
 
 	return answer;
 }
