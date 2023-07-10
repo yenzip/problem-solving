@@ -1,27 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {
-	int N;
-	cin >> N;
-	
-	int start = 1, end = 1;
-	int sum = 1;
-	int answer = 1;	// N = N
+int N;
 
-	while (end < N) {
-		if (sum == N) {
-			answer++;
-			end++;
-			sum += end;
-		}
-		else if (sum < N) {
-			end++;
-			sum += end;
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	cin >> N;
+
+	int answer = 1;	// N 본인 포함
+	int start = 1;
+	int end = 1;
+	int sum = 0;
+
+	while (end <= N) {
+		if (sum <= N) {
+			if (sum == N) {
+				answer++;
+			}
+			sum += end++;
 		}
 		else {
-			sum -= start;
-			start++;
+			sum -= start++;
 		}
 	}
 
