@@ -1,27 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
+string S;
 
-	string S;
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
 	cin >> S;
 
-	string str, answer;
-	int num = 0;
+	string answer;
+	int number = 0;
+
 	for (auto c : S) {
-		if (isupper(c)) {
-			str += c;
+		if (isdigit(c)) {
+			number += c - '0';
 		}
-		else if (isdigit(c)) {
-			num += c - '0';
+		else {
+			answer += c;
 		}
 	}
 
-	sort(str.begin(), str.end());
+	sort(answer.begin(), answer.end());
 
-	answer += str + to_string(num);
+	if (number != 0) {
+		answer += to_string(number);
+	}
 
 	cout << answer;
 
