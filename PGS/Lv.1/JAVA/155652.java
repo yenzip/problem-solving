@@ -1,28 +1,23 @@
+import java.util.*;
+
 class Solution {
     public String solution(String s, String skip, int index) {
-        StringBuilder sb = new StringBuilder();
+        String answer = "";
+        List<Character> list = new ArrayList<>();
         
-        for(int i =0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            int count = 0;
-            
-            while(count < index) {
-                c += 1;
-                
-                if(c > 'z') {
-                    c -= 26;
-                }
-                
-                if(skip.contains(c + "")) {
-                    continue;
-                }
-                
-                count++;
-            }
-            
-            sb.append(c);
+        for(int i = 0; i < 26; i++) {
+            list.add((char)('a' + i));
         }
         
-        return sb.toString();
+        for(Character c : skip.toCharArray()) {
+            list.remove(c);
+        }
+        
+        for(Character c : s.toCharArray()) {
+            int idx = (list.indexOf(c) + index) % list.size();
+            answer += list.get(idx);
+        }
+        
+        return answer;
     }
 }
