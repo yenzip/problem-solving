@@ -2,21 +2,19 @@ import java.util.*;
 
 public class Solution {
     public int[] solution(int []arr) {
-        List<Integer> list = new ArrayList<>();
+        Deque<Integer> dq = new ArrayDeque<>();
         
-        list.add(arr[0]);
+        dq.add(arr[0]);
         
         for(int i = 1; i < arr.length; i++) {
-            if(arr[i - 1] == arr[i]) {
+            if(dq.peekLast() == arr[i]) {
                 continue;
             }
-            else {
-                list.add(arr[i]);
-            }
+            dq.add(arr[i]);
         }
         
-        int[] answer = list.stream().mapToInt(i-> i).toArray();
-
+        int[] answer = dq.stream().mapToInt(i -> i).toArray();
+        
         return answer;
     }
 }
