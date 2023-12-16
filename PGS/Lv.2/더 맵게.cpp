@@ -1,30 +1,27 @@
-#include <string>
-#include <vector>
-#include <queue>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 int solution(vector<int> scoville, int K) {
-	int answer = 0;
-
-	priority_queue<int> pq;
-	for (auto s : scoville) {
-		pq.push(-s);
-	}
-
-	while (pq.size() > 1) {
-		if (-pq.top() >= K) {
-			break;
-		}
-
-		int scov1 = -pq.top();
-		pq.pop();
-		int scov2 = -pq.top();
-		pq.pop();
-
-		pq.push(-(scov1 + scov2 * 2));
-		answer++;
-	}
-
-	return -pq.top() < K ? -1 : answer;
+    priority_queue<int, vector<int>, greater<int>> pq;  // 최소힙 우선순위 큐 (default: 최대힙)
+    int answer = 0;
+    
+    for(int scov : scoville) {
+        pq.push(scov);
+    }
+    
+    while(pq.top() < K) {
+        if(pq.size() < 2) {
+            break;
+        }
+        
+        int s1 = pq.top();
+        pq.pop();
+        int s2 = pq.top();
+        pq.pop();
+            
+        pq.push(s1 + s2 * 2);
+        answer++;
+    }
+    
+    return pq.top() < K ? -1 : answer;
 }
